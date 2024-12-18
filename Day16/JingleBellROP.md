@@ -1,6 +1,7 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day16_description.png">
 
 First, I decompiled the binary in dogbolt:
+
 <img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_16_info.png">
 
 Its a simple program, but there is a buffer overflow at `fgets(&buf, 0x80, stdin);`, where 128 bytes are read inside buf, which is a type void. There is no win function so I used ROP. The file is also a 64 bit executable, which is important to keep in mind. First I tried to find the correct offset using the same approach as in the previous binary challange ([day10]()). Basically 
