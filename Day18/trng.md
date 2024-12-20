@@ -58,7 +58,7 @@ for (i = 1; i * shift < bitSize; i++)
   x ^= y >> (i * shift);
 ```
 
-This is the most important part. In our case the bitSize is 64 so to reverse the encoding I did:
+This is the most important part. In this case the bitSize is 64 so to reverse the encoding I did:
 
 
 ```python
