@@ -2,11 +2,11 @@
 
 First, I opened the binary in dogbolt and saw the main function:
 
-<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_17_info_1.png">
+<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_18_info_1.png">
 
 And this additional function:
 
-<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_17_info_2.png">
+<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_18_info_2.png">
 
 Basically, this program encodes a random number by iterating 1,000,000 times over it and applying the `sub_1249()` function. To get the flag, it is needed to "guess" the random number before this encoding process. To reverse the encoding, I used [this article](https://tobtu.com/blog/2023/3/breaking-xor-shift-prng/), which explains how to break xor shift. Let's take the example from the article:
 
