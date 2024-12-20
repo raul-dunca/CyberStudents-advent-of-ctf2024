@@ -1,6 +1,6 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day18_description.png">
 
-First, I opened the binary in dogbolt and saw the main function:
+First, I opened the binary in binary ninja and saw the main function:
 
 <img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_18_info_1.png">
 
