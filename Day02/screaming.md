@@ -1,6 +1,6 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day2_description.png">
 
-For this chall I have 2 solutions.
+For this challenge I have 2 solutions.
 ## Solution 1:
 Analyzing the file in dogbolt I saw in the main function a buffer overflow because of the `gets` function:
 
