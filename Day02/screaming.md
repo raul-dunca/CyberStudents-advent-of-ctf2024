@@ -6,9 +6,9 @@ Analyzing the file in dogbolt I saw in the main function a buffer overflow becau
 
 <img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_2_info1.png">
  
-I think this is also the intended solution by the author. The goal of the challenge is to change the value of `local_12` from 0 to something else. This variable is also stored right after the buffer which is used to get the user input. So, using a buffer overflow I can change the value stored in `local_12`.
+I think this is also the intended solution by the author. The goal of the challenge is to change the value of `local_12` from 0 to something else. This variable is also stored right after the buffer, which is used to get the user input. So, using a buffer overflow I can change the value stored in `local_12`.
 
-Below is the solution script. Because the buffer which reads user input has a size of `8166` I need at leas `8167` bytes in the payload:
+Below is the solution script. Because the buffer which reads user input has a size of `8166` I need at least `8167` bytes in the payload:
 ```python
 from pwn import *
 
