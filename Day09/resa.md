@@ -1,7 +1,7 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day9_description.png">
 
 
-This chall was a classical RSA. Bsically the ciphertext (variable `c`), variable `n` and `p` are given. From RSA theory: `n=p*q`, where `p` and `q` are 2 big primes. Knowing `p` and `n` I can get the value of `q`. Furthermore, knowing `p` and `q` I can calculate `phi_n`, where: `phi_n= (p-1)*(q-1)` and which is the private key. The last piece of the puzzle is `e`, which is part of the public key but is not present. The challenge description specifies that `And if you heard a word I said, it's under 50`. I assumed it is talking about e. So I did a little brute forcing on `e` and knowing `e` I could calculate `d` as `e^(-1) % phi_n`. `d` is the decryption key and thus I can decrypt the cipher text. Again, from RSA theory: the `gcd(e,phi_n)` must be 1. Here is my script:
+This challenge was a classical RSA. Basically the ciphertext (variable `c`), variable `n` and `p` are given. From RSA theory: `n=p*q`, where `p` and `q` are 2 big primes. Knowing `p` and `n` I can get the value of `q`. Furthermore, knowing `p` and `q` I can calculate `phi_n`, where: `phi_n=(p-1)*(q-1)` and which is the private key. The last piece of the puzzle is `e`, which is part of the public key, but it is not given. The challenge description specifies that `And if you heard a word I said, it's under 50`. I assumed it is talking about `e`. So I did a little brute forcing on `e` and knowing it I could calculate `d` as `e^(-1) % phi_n`. `d` is the decryption key and, I can decrypt the cipher text. Again, from RSA theory: `gcd(e,phi_n)` must be 1. Here is my script:
 
 ```python
 import math
