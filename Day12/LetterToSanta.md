@@ -1,6 +1,6 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day12_description.png">
 
-A password-protected zip file is given. After different attempts of trying to find the password, I realized that the content of the zip looks like a github repository. I found  [this](https://github.com/bitmakerlabs/North-Pole-Writing-Machine), which has the exact same structure as the content of the zip (without the .env, so I assumed the flag is there). I also discovered bkcrack, a tool that can find the key of the zip, knowing some of the plaintext. I ran:
+A password-protected zip file is given. After different attempts of trying to find the password, I realized that the content of the zip looks like a github repository. I found [this](https://github.com/bitmakerlabs/North-Pole-Writing-Machine), which has the exact same structure as the content of the zip (without the .env, so I assumed the flag is there). I also discovered `bkcrack`, a tool that can find the key of the zip, knowing some of the plaintext. I ran:
 ```bash
 bkcrack.exe -C North-Pole-Writing-Machine.zip -c North-Pole-Writing-Machine/README.md -p README.md
 ```
