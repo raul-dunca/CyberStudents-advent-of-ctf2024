@@ -1,6 +1,6 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day6_description.png">
 
-For this challenge I can see the encoded flag, done by this function: 
+For this challenge, I can see that the flag is encoded by this function: 
 
 ```python
 def epochrypt(enc):
@@ -10,11 +10,10 @@ def epochrypt(enc):
     final = xor(based, epc)
     print(final.hex())
 ```
-Additionally, there is the possibility to encrypt a given text and check if the flag is correct. The `epochrypt` function uses `time.time()` which  return the current time, so the program will return different encoding of the flag based on the time when the program is ran. First, I decided to reverse the logic of the epochrypt function:
+Additionally, there is the possibility to encrypt a given text and check if the flag is correct. The `epochrypt` function uses `time.time()` which  return the current time, so the program will return different encodings of the flag based on the time when the program is run. First, I decided to reverse the logic of the epochrypt function:
 
 ```python
 import time
-
 from pwn import xor
 import base64 as b64
 
@@ -32,6 +31,6 @@ dec=bytes([(b-3)%256 for b in based])
 print(dec)
 ```
 
-This code just reverses the logic, and to get an estimated of `time.time()`, I printed it before pressing `View Encrypted Flag` on the remote server. Then just used my reverse function and increased the `around_time` variable by 1 (the delay was just 1 second so I had to increase it only once) and checked the flag with the remote server. 
+This code just reverses the `epochrypt` function, and to get an estimated of `time.time()`, I printed it before pressing `View Encrypted Flag` on the remote server. Then just used my reverse function and increased the `around_time` variable by 1 (the delay was just 1 second so I had to increase it only once) and checked the flag with the remote server. 
 
 `csd{d3F0_M4d3_8y_4N_3lf}`
