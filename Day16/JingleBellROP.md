@@ -55,7 +55,7 @@ leaked_puts = int.from_bytes(result_without_last_byte, byteorder='little')
 
 ```
 
-I transformed the data to hex and look at the bytes after the `96 11 40` sequence which is the address of pop_rdi_ret, but in little endian. Then I just deleted the last byte which is the `\n` character and transformed the address to big endian and then make it an integer value.
+I transformed the data to hex and look at the bytes after the `96 11 40` sequence which is the address of `pop_rdi_ret`, but in little endian. Then I just deleted the last byte which is the `\n` character and transformed the address to big endian and then make it an integer value.
 
 Now, I can calculate the value of the base libc by subtracting from the memory address of puts, the offset of puts. With the base libc I can calculate the memory address of the `system` function and the `\bin\sh` string:
 
