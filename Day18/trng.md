@@ -14,7 +14,7 @@ Basically, this program encodes a random number by iterating 1,000,000 times ove
 y = x ^ (x >> 3)
 ```
 
-y is known and x needs to be found. Let's  say y and x are both 8 bits and represent each bit as a letter:
+y is known, and x needs to be found. Let's  say y and x are both 8 bits and represent each bit as a letter:
 
 ```
 y = ijklmnop
@@ -32,7 +32,7 @@ abcdefgh  ^
 ijklmnop            
 ```
 
-It can be seen that `ijk=abc` since `a^0=a`, so just by looking at y the first 3 bits of x are known. In the article there are more details how did they find the following formula:
+It can be seen that `ijk=abc` since `a^0=a`, so just by looking at y the first 3 bits of x are known. In the article, there are more details on how they found the following formula:
 
 ```
 x = y ^ (y >> 3) ^ (y >> 6)
@@ -50,7 +50,7 @@ abclmnop  ^
 abcdefgh
 ```
 
-Alright the first 3 bits make sens, what about the rest, why is this true? Well, looking at (eq1) `l=a^d` and we want to get `d`, which is the initial bit of x (we are looking for x remember?) so by doing `l^a` we get `d`. For `m` `n` the similar logic is applied. Finally, for the last two bits it is known that `o=g^d` and `l=a^d`, thus from (eq2) we have `g^d^a^d^a` which is exactly `g` (similar logic is for the last bit). In the article, there is also a more general formula:
+Alright, the first 3 bits make sense, what about the rest, why is this true? Well, looking at (eq1) `l=a^d` and we want to get `d`, which is the initial bit of x (we are looking for x remember?) so by doing `l^a` we get `d`. For `m` `n` the similar logic is applied. Finally, for the last two bits it is known that `o=g^d` and `l=a^d`, thus from (eq2) we have `g^d^a^d^a` which is exactly `g` (similar logic is for the last bit). In the article, there is also a more general formula:
 
 ```c++
 x = y;
@@ -80,7 +80,7 @@ for i in range(0,1000000):
 print(f"Recovered x: {data_4010:#016x}")
 ```
 
-Basically, I just applied the general formula and did the calculations in the opposite order. The numpy function just bounds the variable `data_4010` to not exceed 64 bits. Then I just connected to the server, used the encoded hex values printed as input for my program and got the secret number.
+Basically, I just applied the general formula and did the calculations in the opposite order. The numpy function just bounds the variable `data_4010` to not exceed 64 bits. Then I just connected to the server, used the encoded hex values printed as input for my program, and got the secret number.
 
 
 `csd{M47H_15nT_7H4t_5cARY_N0w_15_I7?}`
