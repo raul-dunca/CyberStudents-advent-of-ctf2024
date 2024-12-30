@@ -5,13 +5,13 @@ First, I decompiled the binary in dogbolt:
 <img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_16_info.png">
 
 It is a simple program, but there is a buffer overflow at `fgets(&buf, 0x80, stdin);`, where 128 bytes are read inside `buf`, which is of type void. There is no win function, so I used ROP. The file is also a 64 bit executable, which is important to keep in mind. First I tried to find the correct offset using the same approach as in the previous binary challenge ([day10](https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/Day10/flag_from_wish.md)). Basically 
-I used `cyclic_find` to which I added 8 bytes (size of RBP) and the final offset was `72`. Alright, now my idea was to leak the puts address, which then will help me calculate the base address of libc. This is needed since ASLR is enabled. Since this was a 64 bit executable (remember!?) we also need to be carefull how parameters are passed to functions. Basically, a ROP gadget is needed to pop the value of RDI (thought which function parameters are passed). To find one, I used:
+I used `cyclic_find` to which I added 8 bytes (size of RBP) and the final offset was `72`. Alright, now my idea was to leak the puts address, which then will help me calculate the base address of libc. This is needed since ASLR is enabled. Since this was a 64 bit executable (remember!?) I also need to be carefull how parameters are passed to functions. Basically, a ROP gadget is needed to pop the value of RDI (thought which function parameters are passed). To find one, I used:
 
 ```bash
 ROPgadget --binary main | grep "pop rdi"
 ```
 
-Now, we just need to put the value we want to print (in this case is the memory address of puts) in RDI and then put the function call on the stack. Finally, we need to re-run the main function, so we can do the actual exploit and get the shell.  Here is the exploit described so far:
+Now, I just need to put the value I want to print (in this case is the memory address of puts) in RDI and then put the function call on the stack. Finally, I need to re-run the main function, so I can do the actual exploit and get the shell. Here is the exploit described so far:
 ```python
 from pwn import *
 
@@ -33,7 +33,7 @@ payload += p64(puts_plt)
 payload += p64(main_addr)
 ```
 
-Sending the payload now, a line is returned which shows us what we entered and at the end the leaked puts address, so it is important to parse this correctly to get the correct address. I definitely made my approach more complicated than it needed to be:
+Sending the payload now, a line is returned which shows us what I entered and at the end the leaked puts address, so it is important to parse this correctly to get the correct address. I definitely made my approach more complicated than it needed to be:
 
 ```python
 p = process('./main')          
@@ -82,7 +82,7 @@ p.sendline(payload)
 p.interactive() 
 ```
 
-Then we get a shell and thus the flag if we connect remote. Below is my final complete script with some additional prints:
+Then I get a shell and thus the flag if I connect remote. Below is my final complete script with some additional prints:
 
 ```python
 from pwn import *
