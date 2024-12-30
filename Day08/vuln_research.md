@@ -1,6 +1,6 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day8_description.png">
 
-For this challenge I just used Google. A useful link which has all the answers to the questions is [here](https://hadess.io/windows-downdate-downgrade-attacks-using-windows-updates-and-beyond/).
+For this challenge, I just used Google. A useful link which has all the answers to the questions is [here](https://hadess.io/windows-downdate-downgrade-attacks-using-windows-updates-and-beyond/).
 
 In summary: 
 - Answer Question 1: Leviev
