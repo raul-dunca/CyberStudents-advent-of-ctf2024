@@ -1,7 +1,7 @@
 <img src="https://github.com/raul-dunca/assets/blob/main/.images_CyberStudents-advent-of-ctf2024/day11_description.png">
 
 
-This challenge was straightforward, I can associate each emoji with 1 letter from the 2023 encoded and deduce the rest of the emojis based on the words created. I developed a python script to decode the 2024 message:
+This challenge was straightforward, I can associate each emoji with 1 letter from the `2023 encode`d and deduce the rest of the emojis based on the words created. I developed a python script to decode the 2024 message:
 
 ```python
 emoji_key = {
@@ -49,10 +49,9 @@ def decode_text(encoded_text, key):
         if char in key:
             decoded += key[char]
         else:
-            decoded += char  # Preserve characters not in the key (like punctuation)
+            decoded += char  # Preserve characters not in the key
     return decoded
 
-# Decoding the 2024 ENCODED text
 decoded_2024 = decode_text(encoded_text, emoji_key)
 print(decoded_2024)
 ```
