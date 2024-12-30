@@ -4,7 +4,7 @@ For this chall I have 2 solutions.
 ## Solution 1:
 Analyzing the file in dogbolt I saw in the main function a buffer overflow because of the `gets` function:
 
-<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_5_info1.png">
+<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_2_info1.png">
  
 I think this is also the intended solution by the author. The goal of the challenge is to change the value of `local_12` from 0 to something else. This variable is also stored right after the buffer which is used to get the user input. So, using a buffer overflow I can change the value stored in `local_12`.
 
@@ -23,7 +23,7 @@ print(output)
 ## Solution 2:
 In dogbolt I can also see the win function and what it does exactly:
 
-<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_5_info2.png">
+<img src="https://github.com/raul-dunca/CyberStudents-advent-of-ctf2024/blob/main/.assets/day_2_info2.png">
 
 So, for each byte in that hex strings, it just xor it with `0xaa` to print out the flag. I can reverse the logic of this (`A xor 0xaa = B` and `B xor 0xaa = A`):
 ```python
